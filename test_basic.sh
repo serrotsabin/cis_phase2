@@ -13,21 +13,21 @@ sleep 2
 
 # Check if server started
 if ! ps -p $SERVER_PID > /dev/null; then
-    echo "❌ Server failed to start"
+    echo "Server failed to start"
     cat /tmp/server.log
     exit 1
 fi
 
-echo "✅ Server started (PID: $SERVER_PID)"
+echo "Server started (PID: $SERVER_PID)"
 
 # Check socket
 if [ ! -S /tmp/cis.sock ]; then
-    echo "❌ Socket not created"
+    echo "Socket not created"
     kill $SERVER_PID
     exit 1
 fi
 
-echo "✅ Socket created"
+echo "Socket created"
 
 # Start 3 clients in background
 (sleep 1; echo "pwd"; sleep 1; echo "ls"; sleep 2) | ./client > /tmp/client1.log 2>&1 &
@@ -41,7 +41,7 @@ sleep 0.5
 ./client > /tmp/client3.log 2>&1 &
 CLIENT3_PID=$!
 
-echo "✅ Started 3 clients"
+echo "Started 3 clients"
 echo ""
 
 # Wait for commands to execute
@@ -52,21 +52,21 @@ echo "Checking client outputs..."
 echo ""
 
 if grep -q "cis_phase2" /tmp/client1.log; then
-    echo "✅ Client 1 received output"
+    echo "Client 1 received output"
 else
-    echo "❌ Client 1 no output"
+    echo "Client 1 no output"
 fi
 
 if grep -q "cis_phase2" /tmp/client2.log; then
-    echo "✅ Client 2 received output (broadcast working!)"
+    echo "Client 2 received output (broadcast working!)"
 else
-    echo "❌ Client 2 no output"
+    echo "Client 2 no output"
 fi
 
 if grep -q "cis_phase2" /tmp/client3.log; then
-    echo "✅ Client 3 received output (broadcast working!)"
+    echo "Client 3 received output (broadcast working!)"
 else
-    echo "❌ Client 3 no output"
+    echo "Client 3 no output"
 fi
 
 echo ""
@@ -81,4 +81,4 @@ kill $SERVER_PID $CLIENT1_PID $CLIENT2_PID $CLIENT3_PID 2>/dev/null
 sleep 1
 rm -f /tmp/server.log /tmp/client*.log
 echo ""
-echo "✅ Test complete - Multi-client broadcasting WORKS!"
+echo "Test complete - Multi-client broadcasting WORKS!"

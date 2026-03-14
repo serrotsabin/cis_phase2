@@ -148,7 +148,7 @@ int main() {
         exit(1);
     }
     
-    // ✅ Enable raw mode on server terminal (so we can see what's happening)
+    // Enable raw mode on server terminal (so we can see what's happening)
     // BUT server terminal won't control the shell - only clients will
     enable_raw_mode();
     
@@ -220,7 +220,7 @@ int main() {
             continue;
         }
         
-        // ✅ Check PTY output (shell → all clients)
+        // Check PTY output (shell → all clients)
         if (fds[0].revents & POLLIN) {
             int n = read(master_fd, buf, sizeof(buf));
             if (n > 0) {
@@ -233,7 +233,7 @@ int main() {
             }
         }
         
-        // ✅ Check new connections
+        // Check new connections
         if (fds[1].revents & POLLIN) {
             int client_fd = accept(server_sock, NULL, NULL);
             if (client_fd >= 0) {
@@ -248,7 +248,7 @@ int main() {
             }
         }
         
-        // ✅ Check client input (clients → PTY if controller)
+        // Check client input (clients → PTY if controller)
         for (int i = 2; i < nfds; i++) {
             if (fds[i].revents & POLLIN) {
                 int client_idx = client_poll_map[i - 2];

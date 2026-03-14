@@ -43,7 +43,7 @@ int main() {
     
     printf("[Client] Connected to CIS session\n");
     
-    // ✅ Enable raw mode so keystrokes are sent immediately
+    // Enable raw mode so keystrokes are sent immediately
     enable_raw_mode();
     
     struct pollfd fds[2];
