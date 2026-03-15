@@ -1,0 +1,34 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# THIS FILE IS A PLACEHOLDER
+#
+# Replace it by running:
+#   bash _debug_tools/capture_traces.sh
+#
+# After running, this file will contain real output from YOUR machine.
+# It should look like the example below, with YOUR hostname and kernel.
+#
+# EXAMPLE of what a good session_start.log looks like:
+# ─────────────────────────────────────────────────────────────────────────────
+#
+# ========================================================================
+# CIS Phase 2 - Trace Log: Session Initialization
+# Host: linux-01.cs.siue.edu (6.17.12-300.fc43.x86_64)
+# Test Date: 2026-03-15 21:04:11 CST
+# Tester: sghimire
+# ========================================================================
+#
+# [21:04:11.032] server started: master_fd=3 shell_pid=14823
+# [21:04:11.033] event loop started on /tmp/cis.sock
+# [21:04:11.037] PTY read: master_fd=3
+# sghimire@linux-01:~/cis_phase2$ [21:04:11.531] accept: fd=5 username=user1 slot=0
+# [21:04:11.531] first client auto-granted controller: user1
+# [21:04:11.731] accept: fd=6 username=user2 slot=1
+# [21:04:11.831] accept: fd=7 username=user3 slot=2
+# [21:04:11.932] pty_write: controller=user1 bytes=3
+# [21:04:11.933] PTY read: master_fd=3
+# ls
+# [21:04:11.934] broadcast: client_idx=0 fd=5 bytes=3
+# [21:04:11.934] broadcast: client_idx=1 fd=6 bytes=3
+# [21:04:11.934] broadcast: client_idx=2 fd=7 bytes=3
+# ...
+# ─────────────────────────────────────────────────────────────────────────────
