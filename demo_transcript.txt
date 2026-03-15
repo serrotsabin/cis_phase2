@@ -3,7 +3,7 @@ CIS Phase 2 - Collaborative Interactive Shell Demo Transcript
 =============================================================================
 
 Team Members: Abin Timilsina, Sabin Ghimire, Nuraj Rimal
-Date: February 13, 2026
+Date: [PASTE DATE HERE - e.g. Friday February 13, 2026]
 Platform: home.cs.siue.edu
 
 =============================================================================
@@ -11,276 +11,213 @@ SESSION 1: Basic Multi-Client Collaboration
 =============================================================================
 
 [TERMINAL 1 - Server]
-$ ./server
-[Server] CIS server started
-[Server] Socket: /tmp/cis.sock
-[Server] Waiting for clients...
+[PASTE TERMINAL 1 OUTPUT HERE]
+[should show: server started, 3 clients joined, controller input, ls/pwd output]
 
-[Server] Client 'user1' joined (slot 0)
-[Server] 'user1' is now controller
 
-[Server] Client 'user2' joined (slot 1)
 
-[Server] Client 'user3' joined (slot 2)
-
-[Server] Controller input: 3 bytes
-ls
-client          Makefile        README.md       server          src
-demo_transcript.txt   POSTMORTEM.md
-
-[Server] Controller input: 4 bytes
-pwd
-/home/sghimire/cis_phase2
 
 -----------------------------------------------------------------------------
 
 [TERMINAL 2 - Client 1 (user1) - Controller]
-$ ./client
-[Client] Connected to CIS session
-[Client] Controls:
-  Ctrl+T : Request control
-  Ctrl+R : Release control
-  Ctrl+L : List users
-  Ctrl+X : Quit
+[PASTE TERMINAL 2 OUTPUT HERE]
+[should show: connected as controller, ls and pwd commands and output]
 
-[CIS] You are the controller. Type commands.
 
-ls
-client          Makefile        README.md       server          src
-demo_transcript.txt   POSTMORTEM.md
 
-pwd
-/home/sghimire/cis_phase2
 
 -----------------------------------------------------------------------------
 
 [TERMINAL 3 - Client 2 (user2) - Observer]
-$ ./client
-[Client] Connected to CIS session
-[Client] Controls:
-  Ctrl+T : Request control
-  Ctrl+R : Release control
-  Ctrl+L : List users
-  Ctrl+X : Quit
+[PASTE TERMINAL 3 OUTPUT HERE]
+[should show: connected as observer, ls and pwd output appearing automatically]
 
-[CIS] Connected as observer. Controller: user1
 
-ls
-client          Makefile        README.md       server          src
-demo_transcript.txt   POSTMORTEM.md
 
-pwd
-/home/sghimire/cis_phase2
 
 -----------------------------------------------------------------------------
 
 [TERMINAL 4 - Client 3 (user3) - Observer]
-$ ./client
-[Client] Connected to CIS session
-[Client] Controls:
-  Ctrl+T : Request control
-  Ctrl+R : Release control
-  Ctrl+L : List users
-  Ctrl+X : Quit
+[PASTE TERMINAL 4 OUTPUT HERE]
+[should show: connected as observer, ls and pwd output appearing automatically]
 
-[CIS] Connected as observer. Controller: user1
 
-ls
-client          Makefile        README.md       server          src
-demo_transcript.txt   POSTMORTEM.md
 
-pwd
-/home/sghimire/cis_phase2
 
 =============================================================================
 SESSION 2: Floor Control Transfer
 =============================================================================
 
 [TERMINAL 3 - Client 2 requests control]
-<Ctrl+T>
+[PASTE TERMINAL 3 OUTPUT HERE - just the Ctrl+T line and response]
+[should show: Control request sent. Position in queue: 1]
 
-[CIS] Control request sent. Position in queue: 1
+
+
 
 -----------------------------------------------------------------------------
 
 [TERMINAL 4 - Client 3 requests control]
-<Ctrl+T>
+[PASTE TERMINAL 4 OUTPUT HERE - just the Ctrl+T line and response]
+[should show: Control request sent. Position in queue: 2]
 
-[CIS] Control request sent. Position in queue: 2
+
+
 
 -----------------------------------------------------------------------------
 
 [TERMINAL 1 - Server logs the requests]
-[Server] user2 pressed Ctrl+T (request control)
-[Server] Client user2 queued for control (position: 1)
-[Server] user3 pressed Ctrl+T (request control)
-[Server] Client user3 queued for control (position: 2)
+[PASTE TERMINAL 1 OUTPUT HERE - the queue request lines]
+[should show: user2 queued position 1, user3 queued position 2]
+
+
+
 
 -----------------------------------------------------------------------------
 
 [TERMINAL 2 - Client 1 releases control]
-<Ctrl+R>
+[PASTE TERMINAL 2 OUTPUT HERE - Ctrl+R and response]
+[should show: Control released. Control granted to user2]
 
-[CIS] Control released.
-[CIS] Control granted to user2
+
+
 
 -----------------------------------------------------------------------------
 
 [TERMINAL 1 - Server processes release]
-[Server] user1 pressed Ctrl+R (release control)
-[Server] user1 released control
-[Server] Control granted to user2
+[PASTE TERMINAL 1 OUTPUT HERE - release and grant lines]
+[should show: user1 released control, Control granted to user2]
+
+
+
 
 -----------------------------------------------------------------------------
 
 [TERMINAL 3 - Client 2 now has control]
-[CIS] You now have control. Press Ctrl+R to release.
+[PASTE TERMINAL 3 OUTPUT HERE]
+[should show: You now have control, then whoami/date/echo commands and output]
 
-whoami
-sghimire
 
-date
-Thu Feb 13 09:23:45 CST 2026
 
-echo "Control transferred successfully!"
-Control transferred successfully!
 
 -----------------------------------------------------------------------------
 
 [TERMINAL 2 - Client 1 sees output as observer]
-whoami
-sghimire
+[PASTE TERMINAL 2 OUTPUT HERE]
+[should show: same whoami/date/echo output appearing as observer]
 
-date
-Thu Feb 13 09:23:45 CST 2026
 
-echo "Control transferred successfully!"
-Control transferred successfully!
+
 
 -----------------------------------------------------------------------------
 
 [TERMINAL 4 - Client 3 also sees output]
-whoami
-sghimire
+[PASTE TERMINAL 4 OUTPUT HERE]
+[should show: same whoami/date/echo output appearing as observer]
 
-date
-Thu Feb 13 09:23:45 CST 2026
 
-echo "Control transferred successfully!"
-Control transferred successfully!
+
 
 =============================================================================
 SESSION 3: List Users Feature
 =============================================================================
 
 [TERMINAL 2 - Client 1 lists users]
-<Ctrl+L>
+[PASTE TERMINAL 2 OUTPUT HERE - Ctrl+L and response]
+[should show: Connected users list with user2 marked as controller]
 
-[CIS] Connected users:
-  - user1
-  - user2 (controller)
-  - user3
 
-Control queue: 1 waiting
+
 
 -----------------------------------------------------------------------------
 
 [TERMINAL 4 - Client 3 also lists users]
-<Ctrl+L>
+[PASTE TERMINAL 4 OUTPUT HERE - Ctrl+L and response]
+[should show: same Connected users list]
 
-[CIS] Connected users:
-  - user1
-  - user2 (controller)
-  - user3
 
-Control queue: 1 waiting
+
 
 =============================================================================
 SESSION 4: Controller Disconnect & Auto-Transfer
 =============================================================================
 
 [TERMINAL 3 - Client 2 (controller) quits]
-<Ctrl+X>
-[Client] Quitting...
-$
+[PASTE TERMINAL 3 OUTPUT HERE - Ctrl+X]
+[should show: client quitting]
+
+
+
 
 -----------------------------------------------------------------------------
 
 [TERMINAL 1 - Server detects disconnect and auto-transfers]
-[Server] user2 pressed Ctrl+X (disconnecting)
-[Server] Client 'user2' disconnected
-[Server] Controller disconnected, checking queue...
-[Server] Control granted to user3
+[PASTE TERMINAL 1 OUTPUT HERE]
+[should show: user2 disconnected, Controller disconnected checking queue, Control granted to user3]
+
+
+
 
 -----------------------------------------------------------------------------
 
 [TERMINAL 4 - Client 3 auto-granted control]
-[CIS] Control granted to user2
-[CIS] You now have control. Press Ctrl+R to release.
+[PASTE TERMINAL 4 OUTPUT HERE]
+[should show: You now have control, then uname -a and echo commands]
 
-uname -a
-Linux vm-02.cs.siue.edu 6.17.12-300.fc43.x86_64 #1 SMP PREEMPT_DYNAMIC Sat Dec 13 05:06:24 UTC 2025 x86_64 GNU/Linux
 
-echo "Auto-transfer works!"
-Auto-transfer works!
+
 
 -----------------------------------------------------------------------------
 
 [TERMINAL 2 - Client 1 sees the auto-transfer]
-[CIS] Control granted to user3
+[PASTE TERMINAL 2 OUTPUT HERE]
+[should show: Control granted to user3, then uname and echo output]
 
-uname -a
-Linux vm-02.cs.siue.edu 6.17.12-300.fc43.x86_64 #1 SMP PREEMPT_DYNAMIC Sat Dec 13 05:06:24 UTC 2025 x86_64 GNU/Linux
 
-echo "Auto-transfer works!"
-Auto-transfer works!
+
 
 =============================================================================
 SESSION 5: Observer Cannot Type Commands
 =============================================================================
 
 [TERMINAL 2 - Client 1 (observer) tries to type]
-ls
-[No output - input ignored by server]
+[PASTE TERMINAL 2 OUTPUT HERE]
+[should show: ls typed but no output returned]
+
+
+
 
 -----------------------------------------------------------------------------
 
 [TERMINAL 1 - Server logs observer attempt]
-[Server] Observer user1 tried to type (3 bytes) - ignored
+[PASTE TERMINAL 1 OUTPUT HERE]
+[should show: observer tried to type, ignored]
+
+
+
 
 =============================================================================
 SESSION 6: Clean Shutdown
 =============================================================================
 
 [TERMINAL 4 - Client 3 quits]
-<Ctrl+X>
-[Client] Quitting...
-$
+[PASTE TERMINAL 4 OUTPUT HERE]
 
-[TERMINAL 2 - Client 1 auto-granted control]
-[CIS] You now have control. Press Ctrl+R to release.
 
-ls
-client  Makefile  README.md  server  src
 
-<Ctrl+X>
-[Client] Quitting...
-$
 
-[TERMINAL 1 - Server shuts down when all clients disconnect]
-[Server] user3 pressed Ctrl+X (disconnecting)
-[Server] Client 'user3' disconnected
-[Server] Controller disconnected, checking queue...
-[Server] Control granted to user1
+[TERMINAL 2 - Client 1 quits]
+[PASTE TERMINAL 2 OUTPUT HERE]
 
-[Server] user1 pressed Ctrl+X (disconnecting)
-[Server] Client 'user1' disconnected
-[Server] All clients disconnected
-[Server] Waiting for new connections...
 
-<Ctrl+C>
-[Server] Shutting down...
-$
+
+
+[TERMINAL 1 - Server shuts down]
+[PASTE TERMINAL 1 OUTPUT HERE]
+[should show: clients disconnecting, then Shutting down after Ctrl+C]
+
+
+
 
 =============================================================================
 SUMMARY OF DEMONSTRATED FEATURES
