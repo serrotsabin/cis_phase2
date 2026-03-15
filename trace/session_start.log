@@ -1,0 +1,17 @@
+[atimils@home cis_phase2]$ ./server
+[Server] CIS server started
+[Server] Socket: /tmp/cis.sock
+[Server] Waiting for clients...
+[atimils@home cis_phase2]$
+[Server] Client 'user1' joined (slot 0)
+[Server] 'user1' is now controller
+
+[Server] Client 'user2' joined (slot 1)
+
+[Server] Client 'user3' joined (slot 2)
+ls
+CHANGES.md  demo_transcript.txt  POSTMORTEM.md  server  trace
+client       Makefile         README.md      src
+[atimils@home cis_phase2]$ pwd
+/home/atimils/OS/cis_phase2
+[atimils@home cis_phase2]$

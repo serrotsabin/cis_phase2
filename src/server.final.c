@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <util.h>
+#include <pty.h>
 #include <poll.h>
 #include <sys/socket.h>
 #include <sys/un.h>

@@ -1,0 +1,18 @@
+[atimils@home cis_phase2]$ ./server
+[Server] CIS server started
+[Server] Socket: /tmp/cis.sock
+[Server] Waiting for clients...
+[atimils@home cis_phase2]$
+[Server] Client 'user1' joined (slot 0)
+[Server] 'user1' is now controller
+
+[Server] Client 'user2' joined (slot 1)
+[Server] user2 pressed Ctrl+T (request control)
+[Server] Client user2 queued for control (position: 1)
+pwd
+/home/atimils/OS/cis_phase2
+[atimils@home cis_phase2]$ [Server] user1 pressed Ctrl+X (disconnecting)
+
+[Server] Client 'user1' disconnected
+[Server] Controller disconnected, checking queue...
+[Server] Control granted to user2
