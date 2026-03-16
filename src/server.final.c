@@ -258,13 +258,8 @@ int add_client(int fd, const char *username)
             // First client to join the server becomes the controller
             if (current_controller == -1)
             {
-                clients[i].is_controller = 1;
-                current_controller = i;
+                grant_control(i);
                 printf("[Server] '%s' is now controller\r\n", username);
-
-                char msg[128];
-                snprintf(msg, sizeof(msg), "\r\n[CIS] You are the controller. Type commands.\r\n");
-                write(fd, msg, strlen(msg));
             }
             else
             {
@@ -467,7 +462,7 @@ int main(int argc, char *argv[])
             break;
         }
 
-        if (current_controller >= 0)
+        if (current_controller >= 0 && control_granted_time > 0)
         {
             if (time(NULL) - control_granted_time > CONTROL_TIMEOUT)
             {

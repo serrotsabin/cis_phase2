@@ -7,7 +7,7 @@
 #define MAX_USERNAME 32
 #define SOCKET_PATH "/tmp/cis.sock"
 
-#define CONTROL_TIMEOUT 30  
+#define CONTROL_TIMEOUT 10  
 
 // Client state
 typedef struct {
