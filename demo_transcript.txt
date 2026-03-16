@@ -4,12 +4,13 @@ SESSION 1: Basic Multi-Client Collaboration
 
 [TERMINAL 1 - Server]
 
-[atimils@home cis_phase2]$ ./server
+[atimils@home cis_phase2]$ ./cis host --socket /tmp/demo.sock --shell /bin/bash
 [Server] CIS server started
-[Server] Socket: /tmp/cis.sock
+[Server] Socket: /tmp/demo.sock
 [Server] Waiting for clients...
 [atimils@home cis_phase2]$
 [Server] Client 'user1' joined (slot 0)
+[Server] Control granted to user1
 [Server] 'user1' is now controller
 
 [Server] Client 'user2' joined (slot 1)
@@ -28,7 +29,7 @@ sys     0m0.000s
 
 [TERMINAL 2 - Client 1 (user1) - Controller]
 
-[atimils@home cis_phase2]$ ./client
+[atimils@home cis_phase2]$ ./cis join /tmp/demo.sock
 [Client] Connected to CIS session
 [Client] Controls:
   Ctrl+T : Request control
@@ -37,7 +38,7 @@ sys     0m0.000s
   Ctrl+X : Quit
 
 
-[CIS] You are the controller. Type commands.
+[CIS] You now have control. Press Ctrl+R to release.
 pwd
 /home/atimils/OS/cis_phase2
 [atimils@home cis_phase2]$ time
@@ -51,7 +52,7 @@ sys     0m0.000s
 
 [TERMINAL 3 - Client 2 (user2) - Observer]
 
-[atimils@home cis_phase2]$ ./client
+[atimils@home cis_phase2]$ ./cis join /tmp/demo.sock
 [Client] Connected to CIS session
 [Client] Controls:
   Ctrl+T : Request control
@@ -74,7 +75,7 @@ sys     0m0.000s
 
 [TERMINAL 4 - Client 3 (user3) - Observer]
 
-[atimils@home cis_phase2]$ ./client
+[atimils@home cis_phase2]$ ./cis join /tmp/demo.sock
 [Client] Connected to CIS session
 [Client] Controls:
   Ctrl+T : Request control
@@ -102,7 +103,7 @@ SESSION 2: Floor Control Transfer
 
 [TERMINAL 3 - Client 2 requests control]
 
-[atimils@home cis_phase2]$ ./client
+[atimils@home cis_phase2]$ ./cis join /tmp/demo.sock
 [Client] Connected to CIS session
 [Client] Controls:
   Ctrl+T : Request control
@@ -125,20 +126,17 @@ sys     0m0.000s
 [CIS] You now have control. Press Ctrl+R to release.
 whoami
 atimils
-[atimils@home cis_phase2]$ time
-
-real    0m0.000s
-user    0m0.000s
-sys     0m0.000s
-[atimils@home cis_phase2]$ echo "Controlled Transfered Successfully"
-Controlled Transfered Successfully
+[atimils@home cis_phase2]$ date
+Sun Mar 15 10:17:32 PM CDT 2026
+[atimils@home cis_phase2]$ echo "Control transferred successfully!"
+Control transferred successfully!
 [atimils@home cis_phase2]$
 
 
 
 [TERMINAL 4 - Client 3 requests control]
 
-[atimils@home cis_phase2]$ ./client
+[atimils@home cis_phase2]$ ./cis join /tmp/demo.sock
 [Client] Connected to CIS session
 [Client] Controls:
   Ctrl+T : Request control
@@ -161,25 +159,23 @@ sys     0m0.000s
 [CIS] Control granted to user2
 whoami
 atimils
-[atimils@home cis_phase2]$ time
-
-real    0m0.000s
-user    0m0.000s
-sys     0m0.000s
-[atimils@home cis_phase2]$ echo "Controlled Transfered Successfully"
-Controlled Transfered Successfully
+[atimils@home cis_phase2]$ date
+Sun Mar 15 10:17:32 PM CDT 2026
+[atimils@home cis_phase2]$ echo "Control transferred successfully!"
+Control transferred successfully!
 [atimils@home cis_phase2]$
 
 
 
 [TERMINAL 1 - Server logs the requests]
 
-[atimils@home cis_phase2]$ ./server
+[atimils@home cis_phase2]$ ./cis host --socket /tmp/demo.sock --shell /bin/bash
 [Server] CIS server started
-[Server] Socket: /tmp/cis.sock
+[Server] Socket: /tmp/demo.sock
 [Server] Waiting for clients...
 [atimils@home cis_phase2]$
 [Server] Client 'user1' joined (slot 0)
+[Server] Control granted to user1
 [Server] 'user1' is now controller
 
 [Server] Client 'user2' joined (slot 1)
@@ -201,20 +197,17 @@ sys     0m0.000s
 [Server] Control granted to user2
 whoami
 atimils
-[atimils@home cis_phase2]$ time
-
-real    0m0.000s
-user    0m0.000s
-sys     0m0.000s
-[atimils@home cis_phase2]$ echo "Controlled Transfered Successfully"
-Controlled Transfered Successfully
+[atimils@home cis_phase2]$ date
+Sun Mar 15 10:17:32 PM CDT 2026
+[atimils@home cis_phase2]$ echo "Control transferred successfully!"
+Control transferred successfully!
 [atimils@home cis_phase2]$
 
 
 
 [TERMINAL 2 - Client 1 releases control]
 
-[atimils@home cis_phase2]$ ./client
+[atimils@home cis_phase2]$ ./cis join /tmp/demo.sock
 [Client] Connected to CIS session
 [Client] Controls:
   Ctrl+T : Request control
@@ -223,7 +216,7 @@ Controlled Transfered Successfully
   Ctrl+X : Quit
 
 
-[CIS] You are the controller. Type commands.
+[CIS] You now have control. Press Ctrl+R to release.
 pwd
 /home/atimils/OS/cis_phase2
 [atimils@home cis_phase2]$ time
@@ -237,13 +230,10 @@ sys     0m0.000s
 [CIS] Control granted to user2
 whoami
 atimils
-[atimils@home cis_phase2]$ time
-
-real    0m0.000s
-user    0m0.000s
-sys     0m0.000s
-[atimils@home cis_phase2]$ echo "Controlled Transfered Successfully"
-Controlled Transfered Successfully
+[atimils@home cis_phase2]$ date
+Sun Mar 15 10:17:32 PM CDT 2026
+[atimils@home cis_phase2]$ echo "Control transferred successfully!"
+Control transferred successfully!
 [atimils@home cis_phase2]$
 
 
@@ -254,7 +244,7 @@ SESSION 3: List Users Feature
 
 [TERMINAL 2 - Client 1 lists users]
 
-[atimils@home cis_phase2]$ ./client
+[atimils@home cis_phase2]$ ./cis join /tmp/demo.sock
 [Client] Connected to CIS session
 [Client] Controls:
   Ctrl+T : Request control
@@ -263,7 +253,7 @@ SESSION 3: List Users Feature
   Ctrl+X : Quit
 
 
-[CIS] You are the controller. Type commands.
+[CIS] You now have control. Press Ctrl+R to release.
 pwd
 /home/atimils/OS/cis_phase2
 [atimils@home cis_phase2]$ time
@@ -277,13 +267,10 @@ sys     0m0.000s
 [CIS] Control granted to user2
 whoami
 atimils
-[atimils@home cis_phase2]$ time
-
-real    0m0.000s
-user    0m0.000s
-sys     0m0.000s
-[atimils@home cis_phase2]$ echo "Controlled Transfered Successfully"
-Controlled Transfered Successfully
+[atimils@home cis_phase2]$ date
+Sun Mar 15 10:17:32 PM CDT 2026
+[atimils@home cis_phase2]$ echo "Control transferred successfully!"
+Control transferred successfully!
 [atimils@home cis_phase2]$
 [CIS] Connected users:
   - user1
@@ -296,7 +283,7 @@ Control queue: 1 waiting
 
 [TERMINAL 4 - Client 3 also lists users]
 
-[atimils@home cis_phase2]$ ./client
+[atimils@home cis_phase2]$ ./cis join /tmp/demo.sock
 [Client] Connected to CIS session
 [Client] Controls:
   Ctrl+T : Request control
@@ -319,13 +306,10 @@ sys     0m0.000s
 [CIS] Control granted to user2
 whoami
 atimils
-[atimils@home cis_phase2]$ time
-
-real    0m0.000s
-user    0m0.000s
-sys     0m0.000s
-[atimils@home cis_phase2]$ echo "Controlled Transfered Successfully"
-Controlled Transfered Successfully
+[atimils@home cis_phase2]$ date
+Sun Mar 15 10:17:32 PM CDT 2026
+[atimils@home cis_phase2]$ echo "Control transferred successfully!"
+Control transferred successfully!
 [atimils@home cis_phase2]$
 [CIS] Connected users:
   - user1
@@ -342,7 +326,7 @@ SESSION 4: Controller Disconnect & Auto-Transfer
 
 [TERMINAL 3 - Client 2 (controller) quits]
 
-[atimils@home cis_phase2]$ ./client
+[atimils@home cis_phase2]$ ./cis join /tmp/demo.sock
 [Client] Connected to CIS session
 [Client] Controls:
   Ctrl+T : Request control
@@ -365,13 +349,10 @@ sys     0m0.000s
 [CIS] You now have control. Press Ctrl+R to release.
 whoami
 atimils
-[atimils@home cis_phase2]$ time
-
-real    0m0.000s
-user    0m0.000s
-sys     0m0.000s
-[atimils@home cis_phase2]$ echo "Controlled Transfered Successfully"
-Controlled Transfered Successfully
+[atimils@home cis_phase2]$ date
+Sun Mar 15 10:17:32 PM CDT 2026
+[atimils@home cis_phase2]$ echo "Control transferred successfully!"
+Control transferred successfully!
 [atimils@home cis_phase2]$
 [Client] Quitting...
 
@@ -381,12 +362,13 @@ Controlled Transfered Successfully
 
 [TERMINAL 1 - Server detects disconnect and auto-transfers]
 
-[atimils@home cis_phase2]$ ./server
+[atimils@home cis_phase2]$ ./cis host --socket /tmp/demo.sock --shell /bin/bash
 [Server] CIS server started
-[Server] Socket: /tmp/cis.sock
+[Server] Socket: /tmp/demo.sock
 [Server] Waiting for clients...
 [atimils@home cis_phase2]$
 [Server] Client 'user1' joined (slot 0)
+[Server] Control granted to user1
 [Server] 'user1' is now controller
 
 [Server] Client 'user2' joined (slot 1)
@@ -408,31 +390,28 @@ sys     0m0.000s
 [Server] Control granted to user2
 whoami
 atimils
-[atimils@home cis_phase2]$ time
-
-real    0m0.000s
-user    0m0.000s
-sys     0m0.000s
-[atimils@home cis_phase2]$ echo "Controlled Transfered Successfully"
-Controlled Transfered Successfully
+[atimils@home cis_phase2]$ date
+Sun Mar 15 10:17:32 PM CDT 2026
+[atimils@home cis_phase2]$ echo "Control transferred successfully!"
+Control transferred successfully!
 [atimils@home cis_phase2]$ [Server] user1 pressed Ctrl+L (list users)
 [Server] user3 pressed Ctrl+L (list users)
 [Server] user2 pressed Ctrl+X (disconnecting)
 
 [Server] Client 'user2' disconnected
-[Server] Controller disconnected, checking queue...
+[Server] Controller disconnected, Checking queue...
 [Server] Control granted to user3
 uname -a
 Linux vm-02.cs.siue.edu 6.17.12-300.fc43.x86_64 #1 SMP PREEMPT_DYNAMIC Sat Dec 13 05:06:24 UTC 2025 x86_64 GNU/Linux
-[atimils@home cis_phase2]$ echo "Auto Transfer Works."
-Auto Transfer Works.
+[atimils@home cis_phase2]$ echo "Auto-transfer works!"
+Auto-transfer works!
 [atimils@home cis_phase2]$
 
 
 
 [TERMINAL 4 - Client 3 auto-granted control]
 
-[atimils@home cis_phase2]$ ./client
+[atimils@home cis_phase2]$ ./cis join /tmp/demo.sock
 [Client] Connected to CIS session
 [Client] Controls:
   Ctrl+T : Request control
@@ -455,13 +434,10 @@ sys     0m0.000s
 [CIS] Control granted to user2
 whoami
 atimils
-[atimils@home cis_phase2]$ time
-
-real    0m0.000s
-user    0m0.000s
-sys     0m0.000s
-[atimils@home cis_phase2]$ echo "Controlled Transfered Successfully"
-Controlled Transfered Successfully
+[atimils@home cis_phase2]$ date
+Sun Mar 15 10:17:32 PM CDT 2026
+[atimils@home cis_phase2]$ echo "Control transferred successfully!"
+Control transferred successfully!
 [atimils@home cis_phase2]$
 [CIS] Connected users:
   - user1
@@ -473,15 +449,16 @@ Control queue: 1 waiting
 [CIS] You now have control. Press Ctrl+R to release.
 uname -a
 Linux vm-02.cs.siue.edu 6.17.12-300.fc43.x86_64 #1 SMP PREEMPT_DYNAMIC Sat Dec 13 05:06:24 UTC 2025 x86_64 GNU/Linux
-[atimils@home cis_phase2]$ echo "Auto Transfer Works."
-Auto Transfer Works.
+[atimils@home cis_phase2]$ echo "Auto-transfer works!"
+Auto-transfer works!
 [atimils@home cis_phase2]$
+
 
 
 
 [TERMINAL 2 - Client 1 sees the auto-transfer]
 
-[atimils@home cis_phase2]$ ./client
+[atimils@home cis_phase2]$ ./cis join /tmp/demo.sock
 [Client] Connected to CIS session
 [Client] Controls:
   Ctrl+T : Request control
@@ -490,7 +467,7 @@ Auto Transfer Works.
   Ctrl+X : Quit
 
 
-[CIS] You are the controller. Type commands.
+[CIS] You now have control. Press Ctrl+R to release.
 pwd
 /home/atimils/OS/cis_phase2
 [atimils@home cis_phase2]$ time
@@ -504,13 +481,10 @@ sys     0m0.000s
 [CIS] Control granted to user2
 whoami
 atimils
-[atimils@home cis_phase2]$ time
-
-real    0m0.000s
-user    0m0.000s
-sys     0m0.000s
-[atimils@home cis_phase2]$ echo "Controlled Transfered Successfully"
-Controlled Transfered Successfully
+[atimils@home cis_phase2]$ date
+Sun Mar 15 10:17:32 PM CDT 2026
+[atimils@home cis_phase2]$ echo "Control transferred successfully!"
+Control transferred successfully!
 [atimils@home cis_phase2]$
 [CIS] Connected users:
   - user1
@@ -522,21 +496,18 @@ Control queue: 1 waiting
 [CIS] Control granted to user3
 uname -a
 Linux vm-02.cs.siue.edu 6.17.12-300.fc43.x86_64 #1 SMP PREEMPT_DYNAMIC Sat Dec 13 05:06:24 UTC 2025 x86_64 GNU/Linux
-[atimils@home cis_phase2]$ echo "Auto Transfer Works."
-Auto Transfer Works.
+[atimils@home cis_phase2]$ echo "Auto-transfer works!"
+Auto-transfer works!
 [atimils@home cis_phase2]$
 
 
 
 -----------------------------------------------------------------------------
+SESSION 4: Timeouts
 
-SESSION 5: Clean Shutdown
+[TERMINAL 4 - Client 4 times out while in control]
 
-
-
-[TERMINAL 4 - Client 3 quits]
-
-[atimils@home cis_phase2]$ ./client
+[atimils@home cis_phase2]$ ./cis join /tmp/demo.sock
 [Client] Connected to CIS session
 [Client] Controls:
   Ctrl+T : Request control
@@ -559,13 +530,10 @@ sys     0m0.000s
 [CIS] Control granted to user2
 whoami
 atimils
-[atimils@home cis_phase2]$ time
-
-real    0m0.000s
-user    0m0.000s
-sys     0m0.000s
-[atimils@home cis_phase2]$ echo "Controlled Transfered Successfully"
-Controlled Transfered Successfully
+[atimils@home cis_phase2]$ date
+Sun Mar 15 10:17:32 PM CDT 2026
+[atimils@home cis_phase2]$ echo "Control transferred successfully!"
+Control transferred successfully!
 [atimils@home cis_phase2]$
 [CIS] Connected users:
   - user1
@@ -577,8 +545,160 @@ Control queue: 1 waiting
 [CIS] You now have control. Press Ctrl+R to release.
 uname -a
 Linux vm-02.cs.siue.edu 6.17.12-300.fc43.x86_64 #1 SMP PREEMPT_DYNAMIC Sat Dec 13 05:06:24 UTC 2025 x86_64 GNU/Linux
-[atimils@home cis_phase2]$ echo "Auto Transfer Works."
-Auto Transfer Works.
+[atimils@home cis_phase2]$ echo "Auto-transfer works!"
+Auto-transfer works!
+[atimils@home cis_phase2]$
+[CIS] Control released.
+
+[CIS] Control granted to user2
+[atimils@home cis_phase2]$
+
+
+
+[TERMINAL 1 - Server logs the timeout and auto-transfer]
+
+[atimils@home cis_phase2]$ ./cis host --socket /tmp/demo.sock --shell /bin/bash
+[Server] CIS server started
+[Server] Socket: /tmp/demo.sock
+[Server] Waiting for clients...
+[atimils@home cis_phase2]$
+[Server] Client 'user1' joined (slot 0)
+[Server] Control granted to user1
+[Server] 'user1' is now controller
+
+[Server] Client 'user2' joined (slot 1)
+
+[Server] Client 'user3' joined (slot 2)
+pwd
+/home/atimils/OS/cis_phase2
+[atimils@home cis_phase2]$ time
+
+real    0m0.000s
+user    0m0.000s
+sys     0m0.000s
+[atimils@home cis_phase2]$ [Server] user2 pressed Ctrl+T (request control)
+[Server] Client user2 queued for control (position: 1)
+[Server] user3 pressed Ctrl+T (request control)
+[Server] Client user3 queued for control (position: 2)
+[Server] user1 pressed Ctrl+R (release control)
+[Server] user1 released control
+[Server] Control granted to user2
+whoami
+atimils
+[atimils@home cis_phase2]$ date
+Sun Mar 15 10:17:32 PM CDT 2026
+[atimils@home cis_phase2]$ echo "Control transferred successfully!"
+Control transferred successfully!
+[atimils@home cis_phase2]$ [Server] user1 pressed Ctrl+L (list users)
+[Server] user3 pressed Ctrl+L (list users)
+[Server] user2 pressed Ctrl+X (disconnecting)
+
+[Server] Client 'user2' disconnected
+[Server] Controller disconnected, Checking queue...
+[Server] Control granted to user3
+uname -a
+Linux vm-02.cs.siue.edu 6.17.12-300.fc43.x86_64 #1 SMP PREEMPT_DYNAMIC Sat Dec 13 05:06:24 UTC 2025 x86_64 GNU/Linux
+[atimils@home cis_phase2]$ echo "Auto-transfer works!"
+Auto-transfer works!
+[Server] Controller user3 timed out, releasing
+[Server] user3 released control
+[Server] Control granted to user1
+[atimils@home cis_phase2]$
+
+
+
+[TERMINAL 2 - Client 1 sees the auto-transfer]
+[atimils@home cis_phase2]$ ./cis join /tmp/demo.sock
+[Client] Connected to CIS session
+[Client] Controls:
+  Ctrl+T : Request control
+  Ctrl+R : Release control
+  Ctrl+L : List users
+  Ctrl+X : Quit
+
+
+[CIS] You now have control. Press Ctrl+R to release.
+pwd
+/home/atimils/OS/cis_phase2
+[atimils@home cis_phase2]$ time
+
+real    0m0.000s
+user    0m0.000s
+sys     0m0.000s
+[atimils@home cis_phase2]$
+[CIS] Control released.
+
+[CIS] Control granted to user2
+whoami
+atimils
+[atimils@home cis_phase2]$ date
+Sun Mar 15 10:17:32 PM CDT 2026
+[atimils@home cis_phase2]$ echo "Control transferred successfully!"
+Control transferred successfully!
+[atimils@home cis_phase2]$
+[CIS] Connected users:
+  - user1
+  - user2 (controller)
+  - user3
+
+Control queue: 1 waiting
+
+[CIS] Control granted to user3
+uname -a
+Linux vm-02.cs.siue.edu 6.17.12-300.fc43.x86_64 #1 SMP PREEMPT_DYNAMIC Sat Dec 13 05:06:24 UTC 2025 x86_64 GNU/Linux
+[atimils@home cis_phase2]$ echo "Auto-transfer works!"
+Auto-transfer works!
+[atimils@home cis_phase2]$
+[CIS] Control request sent. Position in queue: 1
+[CIS] You now have control. Press Ctrl+R to release.
+-----------------------------------------------------------------------------
+
+SESSION 5: Clean Shutdown
+
+
+
+[TERMINAL 4 - Client 3 quits]
+
+[atimils@home cis_phase2]$ ./cis join /tmp/demo.sock
+[Client] Connected to CIS session
+[Client] Controls:
+  Ctrl+T : Request control
+  Ctrl+R : Release control
+  Ctrl+L : List users
+  Ctrl+X : Quit
+
+
+[CIS] Connected as observer. Controller: user1
+pwd
+/home/atimils/OS/cis_phase2
+[atimils@home cis_phase2]$ time
+
+real    0m0.000s
+user    0m0.000s
+sys     0m0.000s
+[atimils@home cis_phase2]$
+[CIS] Control request sent. Position in queue: 2
+
+[CIS] Control granted to user2
+whoami
+atimils
+[atimils@home cis_phase2]$ date
+Sun Mar 15 10:17:32 PM CDT 2026
+[atimils@home cis_phase2]$ echo "Control transferred successfully!"
+Control transferred successfully!
+[atimils@home cis_phase2]$
+[CIS] Connected users:
+  - user1
+  - user2 (controller)
+  - user3
+
+Control queue: 1 waiting
+
+[CIS] You now have control. Press Ctrl+R to release.
+uname -a
+Linux vm-02.cs.siue.edu 6.17.12-300.fc43.x86_64 #1 SMP PREEMPT_DYNAMIC Sat Dec 13 05:06:24 UTC 2025 x86_64 GNU/Linux
+[atimils@home cis_phase2]$ echo "Auto-transfer works!"
+Auto-transfer works!
 [atimils@home cis_phase2]$
 [Client] Quitting...
 
@@ -588,7 +708,7 @@ Auto Transfer Works.
 
 [TERMINAL 2 - Client 1 quits]
 
-[atimils@home cis_phase2]$ ./client
+[atimils@home cis_phase2]$ ./cis join /tmp/demo.sock
 [Client] Connected to CIS session
 [Client] Controls:
   Ctrl+T : Request control
@@ -597,7 +717,7 @@ Auto Transfer Works.
   Ctrl+X : Quit
 
 
-[CIS] You are the controller. Type commands.
+[CIS] You now have control. Press Ctrl+R to release.
 pwd
 /home/atimils/OS/cis_phase2
 [atimils@home cis_phase2]$ time
@@ -611,13 +731,10 @@ sys     0m0.000s
 [CIS] Control granted to user2
 whoami
 atimils
-[atimils@home cis_phase2]$ time
-
-real    0m0.000s
-user    0m0.000s
-sys     0m0.000s
-[atimils@home cis_phase2]$ echo "Controlled Transfered Successfully"
-Controlled Transfered Successfully
+[atimils@home cis_phase2]$ date
+Sun Mar 15 10:17:32 PM CDT 2026
+[atimils@home cis_phase2]$ echo "Control transferred successfully!"
+Control transferred successfully!
 [atimils@home cis_phase2]$
 [CIS] Connected users:
   - user1
@@ -629,8 +746,8 @@ Control queue: 1 waiting
 [CIS] Control granted to user3
 uname -a
 Linux vm-02.cs.siue.edu 6.17.12-300.fc43.x86_64 #1 SMP PREEMPT_DYNAMIC Sat Dec 13 05:06:24 UTC 2025 x86_64 GNU/Linux
-[atimils@home cis_phase2]$ echo "Auto Transfer Works."
-Auto Transfer Works.
+[atimils@home cis_phase2]$ echo "Auto-transfer works!"
+Auto-transfer works!
 [atimils@home cis_phase2]$
 [CIS] You now have control. Press Ctrl+R to release.
 
@@ -642,12 +759,13 @@ Auto Transfer Works.
 
 [TERMINAL 1 - Server shuts down]
 
-[atimils@home cis_phase2]$ ./server
+[atimils@home cis_phase2]$ ./cis host --socket /tmp/demo.sock --shell /bin/bash
 [Server] CIS server started
-[Server] Socket: /tmp/cis.sock
+[Server] Socket: /tmp/demo.sock
 [Server] Waiting for clients...
 [atimils@home cis_phase2]$
 [Server] Client 'user1' joined (slot 0)
+[Server] Control granted to user1
 [Server] 'user1' is now controller
 
 [Server] Client 'user2' joined (slot 1)
@@ -669,33 +787,33 @@ sys     0m0.000s
 [Server] Control granted to user2
 whoami
 atimils
-[atimils@home cis_phase2]$ time
-
-real    0m0.000s
-user    0m0.000s
-sys     0m0.000s
-[atimils@home cis_phase2]$ echo "Controlled Transfered Successfully"
-Controlled Transfered Successfully
+[atimils@home cis_phase2]$ date
+Sun Mar 15 10:17:32 PM CDT 2026
+[atimils@home cis_phase2]$ echo "Control transferred successfully!"
+Control transferred successfully!
 [atimils@home cis_phase2]$ [Server] user1 pressed Ctrl+L (list users)
 [Server] user3 pressed Ctrl+L (list users)
 [Server] user2 pressed Ctrl+X (disconnecting)
 
 [Server] Client 'user2' disconnected
-[Server] Controller disconnected, checking queue...
+[Server] Controller disconnected, Checking queue...
 [Server] Control granted to user3
 uname -a
 Linux vm-02.cs.siue.edu 6.17.12-300.fc43.x86_64 #1 SMP PREEMPT_DYNAMIC Sat Dec 13 05:06:24 UTC 2025 x86_64 GNU/Linux
-[atimils@home cis_phase2]$ echo "Auto Transfer Works."
-Auto Transfer Works.
+[atimils@home cis_phase2]$ echo "Auto-transfer works!"
+Auto-transfer works!
 [atimils@home cis_phase2]$ [Server] user3 pressed Ctrl+X (disconnecting)
 
 [Server] Client 'user3' disconnected
-[Server] Controller disconnected, checking queue...
+[Server] Controller disconnected, Checking queue...
 [Server] Control granted to user1
 [Server] user1 pressed Ctrl+X (disconnecting)
 
 [Server] Client 'user1' disconnected
-[Server] Controller disconnected, checking queue...
+[Server] Controller disconnected, Checking queue...
+
+[Server] Shutting down...
+[atimils@home cis_phase2]$
 
 
 

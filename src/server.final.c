@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <util.h>
+#include <pty.h>
 #include <poll.h>
 #include <sys/socket.h>
 #include <sys/un.h>
@@ -294,7 +294,7 @@ void remove_client(int client_idx)
         clients[client_idx].is_controller = 0;
         current_controller = -1;
 
-        printf("[Server] Controller disconnected, Waiting for new client to join...\r\n");
+        printf("[Server] Controller disconnected, Checking queue...\r\n");
 
         // Grant control to next in queue if available
         int next = dequeue_request();

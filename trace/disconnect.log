@@ -1,9 +1,10 @@
-[atimils@home cis_phase2]$ ./server
+[atimils@home cis_phase2]$ ./cis host --socket /tmp/demo.sock --shell /bin/bash
 [Server] CIS server started
-[Server] Socket: /tmp/cis.sock
+[Server] Socket: /tmp/demo.sock
 [Server] Waiting for clients...
 [atimils@home cis_phase2]$
 [Server] Client 'user1' joined (slot 0)
+[Server] Control granted to user1
 [Server] 'user1' is now controller
 
 [Server] Client 'user2' joined (slot 1)
@@ -11,8 +12,13 @@
 [Server] Client user2 queued for control (position: 1)
 pwd
 /home/atimils/OS/cis_phase2
+[atimils@home cis_phase2]$ time
+
+real    0m0.000s
+user    0m0.000s
+sys     0m0.000s
 [atimils@home cis_phase2]$ [Server] user1 pressed Ctrl+X (disconnecting)
 
 [Server] Client 'user1' disconnected
-[Server] Controller disconnected, checking queue...
+[Server] Controller disconnected, Checking queue...
 [Server] Control granted to user2

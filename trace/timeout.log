@@ -8,22 +8,12 @@
 [Server] 'user1' is now controller
 
 [Server] Client 'user2' joined (slot 1)
-
-[Server] Client 'user3' joined (slot 2)
 [Server] user2 pressed Ctrl+T (request control)
 [Server] Client user2 queued for control (position: 1)
+
+[Server] Client 'user3' joined (slot 2)
 [Server] user3 pressed Ctrl+T (request control)
 [Server] Client user3 queued for control (position: 2)
-pwd
-/home/atimils/OS/cis_phase2
-[atimils@home cis_phase2]$ [Server] user1 pressed Ctrl+R (release control)
+[Server] Controller user1 timed out, releasing
 [Server] user1 released control
 [Server] Control granted to user2
-time
-
-real    0m0.000s
-user    0m0.000s
-sys     0m0.000s
-[atimils@home cis_phase2]$ [Server] user2 pressed Ctrl+R (release control)
-[Server] user2 released control
-[Server] Control granted to user3
