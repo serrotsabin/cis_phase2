@@ -11,6 +11,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include "protocol.h"
+#include <time.h>
 
 // clients
 client_t clients[MAX_CLIENTS];
@@ -28,6 +29,10 @@ struct termios orig_termios;
 // PTY
 int master_fd;
 pid_t shell_pid;
+time_t control_granted_time = 0;
+
+char socket_path[108];
+char shell_path[256];
 
 // Terminal control functions
 
@@ -143,6 +148,7 @@ void grant_control(int client_idx)
     // grant control to new controller
     clients[client_idx].is_controller = 1;
     current_controller = client_idx;
+    control_granted_time = time(NULL);
 
     printf("[Server] Control granted to %s\r\n", clients[client_idx].username);
 
@@ -348,14 +354,26 @@ void cleanup()
     if (shell_pid > 0)
     {
         kill(shell_pid, SIGTERM);
-        waitpid(shell_pid, NULL, 0);
+        kill(shell_pid, SIGKILL);
+        waitpid(shell_pid, NULL, WNOHANG);
     }
 
-    unlink(SOCKET_PATH);
+    unlink(socket_path);
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+    // parse arguments — defaults match hardcoded values
+    strncpy(socket_path, SOCKET_PATH, sizeof(socket_path) - 1);
+    strncpy(shell_path, "/bin/bash", sizeof(shell_path) - 1);
+
+    for (int i = 1; i < argc; i++)
+    {
+        if (strcmp(argv[i], "--socket") == 0 && i + 1 < argc)
+            strncpy(socket_path, argv[++i], sizeof(socket_path) - 1);
+        else if (strcmp(argv[i], "--shell") == 0 && i + 1 < argc)
+            strncpy(shell_path, argv[++i], sizeof(shell_path) - 1);
+    }
     // Initialize clients and request queue
     memset(clients, 0, sizeof(clients));
     memset(request_queue, 0, sizeof(request_queue));
@@ -371,7 +389,7 @@ int main()
     if (shell_pid == 0)
     {
         // Child process - execute shell
-        execl("/bin/bash", "bash", NULL);
+        execl(shell_path, shell_path, NULL);
         exit(1);
     }
 
@@ -389,9 +407,9 @@ int main()
     struct sockaddr_un addr;
     memset(&addr, 0, sizeof(addr));
     addr.sun_family = AF_UNIX;
-    strncpy(addr.sun_path, SOCKET_PATH, sizeof(addr.sun_path) - 1);
+    strncpy(addr.sun_path, socket_path, sizeof(addr.sun_path) - 1);
 
-    unlink(SOCKET_PATH);
+    unlink(socket_path);
     if (bind(server_sock, (struct sockaddr *)&addr, sizeof(addr)) < 0)
     {
         perror("bind");
@@ -401,7 +419,7 @@ int main()
     listen(server_sock, 5);
 
     printf("[Server] CIS server started\r\n");
-    printf("[Server] Socket: %s\r\n", SOCKET_PATH);
+    printf("[Server] Socket: %s\r\n", socket_path);
     printf("[Server] Waiting for clients...\r\n");
 
     atexit(cleanup);
@@ -447,6 +465,16 @@ int main()
         {
             perror("poll");
             break;
+        }
+
+        if (current_controller >= 0)
+        {
+            if (time(NULL) - control_granted_time > CONTROL_TIMEOUT)
+            {
+                printf("[Server] Controller %s timed out, releasing\r\n",
+                       clients[current_controller].username);
+                release_control(current_controller);
+            }
         }
 
         if (ret == 0)

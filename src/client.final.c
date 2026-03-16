@@ -31,8 +31,12 @@ void enable_raw_mode() {
 }
 
 // Client management functions
+int main(int argc, char *argv[])
+{
+    char socket_path[108] = SOCKET_PATH;
+    if (argc > 1)
+        strncpy(socket_path, argv[1], sizeof(socket_path)-1);
 
-int main() {
     // Create socket
     int sock = socket(AF_UNIX, SOCK_STREAM, 0);
     if (sock < 0) {
@@ -44,7 +48,7 @@ int main() {
     struct sockaddr_un addr;
     memset(&addr, 0, sizeof(addr));
     addr.sun_family = AF_UNIX;
-    strncpy(addr.sun_path, SOCKET_PATH, sizeof(addr.sun_path) - 1);
+    strncpy(addr.sun_path, socket_path, sizeof(addr.sun_path) - 1);
     
     if (connect(sock, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
         perror("connect");

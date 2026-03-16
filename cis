@@ -1,0 +1,16 @@
+#!/bin/bash
+# CIS — Collaborative Interactive Shell
+# Usage: cis host --socket <path> --shell <path>
+#        cis join <socket_path>
+
+if [ "$1" = "host" ]; then
+    shift
+    ./server "$@"
+elif [ "$1" = "join" ]; then
+    shift
+    ./client "$@"
+else
+    echo "Usage: cis host --socket <path> --shell <path>"
+    echo "       cis join <socket_path>"
+    exit 1
+fi

@@ -7,15 +7,7 @@
 #define MAX_USERNAME 32
 #define SOCKET_PATH "/tmp/cis.sock"
 
-// Message types
-#define MSG_REQUEST_CONTROL  1
-#define MSG_RELEASE_CONTROL  2
-#define MSG_GRANT_CONTROL    3
-#define MSG_REVOKE_CONTROL   4
-#define MSG_PTY_OUTPUT       5
-#define MSG_USER_JOINED      6
-#define MSG_USER_LEFT        7
-#define MSG_LIST_USERS       8
+#define CONTROL_TIMEOUT 30  
 
 // Client state
 typedef struct {
