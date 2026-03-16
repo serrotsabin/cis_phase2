@@ -1,29 +1,3 @@
-/**
- * CIS Phase 2 - Collaborative Interactive Shell Client
- * 
- * Description:
- *   Terminal client that connects to CIS server and provides
- *   interactive access to shared bash session. Supports both
- *   controller and observer modes.
- * 
- * Features:
- *   - Raw mode terminal input (immediate keystroke capture)
- *   - Real-time output display from server
- *   - Control request/release via escape sequences
- *   - User list display
- *   - Clean disconnect
- * 
- * Controls:
- *   Ctrl+T - Request control (observers)
- *   Ctrl+R - Release control (controller)
- *   Ctrl+L - List connected users
- *   Ctrl+X - Quit session
- * 
- * Authors: Abin Timilsina, Sabin Ghimire, Nuraj Rimal
- * Date: February 2026
- * Course: Operating Systems - SIUE
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -35,7 +9,7 @@
 
 #define SOCKET_PATH "/tmp/cis.sock"
 
-// ========== TERMINAL CONTROL ==========
+// Terminal state for client
 
 struct termios orig_termios;
 
@@ -56,7 +30,7 @@ void enable_raw_mode() {
     tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
 
-// ========== MAIN ==========
+// Client management functions
 
 int main() {
     // Create socket

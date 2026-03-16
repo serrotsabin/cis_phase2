@@ -1,22 +1,3 @@
-/**
- * CIS Phase 2 - Collaborative Interactive Shell Server
- * 
- * Description:
- *   Server that hosts a bash shell in a PTY and allows multiple clients
- *   to connect, observe output, and take turns controlling the session
- *   via a FIFO floor control protocol.
- * 
- * Architecture:
- *   - Single-threaded event loop using poll()
- *   - PTY for hosting bash shell (created with forkpty())
- *   - UNIX domain socket for client connections
- *   - FIFO queue for control requests
- * 
- * Authors: Abin Timilsina, Sabin Ghimire, Nuraj Rimal
- * Date: February 2026
- * Course: Operating Systems - SIUE
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -30,26 +11,26 @@
 #include <sys/stat.h>
 #include "protocol.h"
 
-// ========== GLOBAL STATE ==========
 
-// Clients
+// clients
 client_t clients[MAX_CLIENTS];
 int num_clients = 0;
 int current_controller = -1;
 
-// Control request queue
+// control request queue
 request_t request_queue[MAX_CLIENTS];
 int queue_head = 0;
 int queue_tail = 0;
 
-// Terminal state
+// terminal state
 struct termios orig_termios;
 
 // PTY
 int master_fd;
 pid_t shell_pid;
 
-// ========== TERMINAL CONTROL ==========
+
+// Terminal control functions
 
 void disable_raw_mode() {
     tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
@@ -67,7 +48,7 @@ void enable_raw_mode() {
     tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
 
-// ========== BROADCAST FUNCTIONS ==========
+// Broadcast data to all active clients
 
 void broadcast_to_all(const char *data, int len) {
     for (int i = 0; i < MAX_CLIENTS; i++) {
@@ -80,10 +61,10 @@ void broadcast_to_all(const char *data, int len) {
     }
 }
 
-// ========== CONTROL QUEUE MANAGEMENT ==========
+// Queue control requests and manage granting/releasing control
 
 void enqueue_request(int client_idx) {
-    // Check if already in queue
+    // check if already in queue
     for (int i = queue_head; i < queue_tail; i++) {
         if (request_queue[i % MAX_CLIENTS].client_index == client_idx) {
             printf("[Server] Client %s already in queue\r\n", 
@@ -92,14 +73,14 @@ void enqueue_request(int client_idx) {
         }
     }
     
-    // Check if already controller
+    // check if already controller
     if (clients[client_idx].is_controller) {
         printf("[Server] Client %s already has control\r\n", 
                clients[client_idx].username);
         return;
     }
     
-    // Add to queue
+    // add to the queue
     request_queue[queue_tail % MAX_CLIENTS].client_index = client_idx;
     queue_tail++;
     
@@ -107,7 +88,7 @@ void enqueue_request(int client_idx) {
     printf("[Server] Client %s queued for control (position: %d)\r\n", 
            clients[client_idx].username, position);
     
-    // Send position notification to requester
+    // send position notification to requester
     char msg[256];
     snprintf(msg, sizeof(msg), 
              "\r\n[CIS] Control request sent. Position in queue: %d\r\n", 
@@ -117,7 +98,7 @@ void enqueue_request(int client_idx) {
 
 int dequeue_request() {
     if (queue_head >= queue_tail) {
-        return -1;  // Queue empty
+        return -1;  // queue is empty
     }
     
     int client_idx = request_queue[queue_head % MAX_CLIENTS].client_index;
@@ -130,7 +111,7 @@ void grant_control(int client_idx) {
     if (client_idx < 0 || client_idx >= MAX_CLIENTS) return;
     if (!clients[client_idx].active) return;
     
-    // Revoke current controller
+    // revoke current controller
     if (current_controller >= 0 && current_controller < MAX_CLIENTS) {
         if (clients[current_controller].active) {
             clients[current_controller].is_controller = 0;
@@ -143,19 +124,19 @@ void grant_control(int client_idx) {
         }
     }
     
-    // Grant to new controller
+    // grant control to new controller
     clients[client_idx].is_controller = 1;
     current_controller = client_idx;
     
     printf("[Server] Control granted to %s\r\n", clients[client_idx].username);
     
-    // Notify new controller
+    // notify new controller
     char msg[256];
     snprintf(msg, sizeof(msg), 
              "\r\n[CIS] You now have control. Press Ctrl+R to release.\r\n");
     write(clients[client_idx].fd, msg, strlen(msg));
     
-    // Notify all other clients
+    // notify all other clients
     for (int i = 0; i < MAX_CLIENTS; i++) {
         if (clients[i].active && i != client_idx) {
             snprintf(msg, sizeof(msg), 
@@ -176,12 +157,12 @@ void release_control(int client_idx) {
     clients[client_idx].is_controller = 0;
     current_controller = -1;
     
-    // Notify the releaser
+    // notify the releaser
     char msg[256];
     snprintf(msg, sizeof(msg), "\r\n[CIS] Control released.\r\n");
     write(clients[client_idx].fd, msg, strlen(msg));
     
-    // Grant to next in queue
+    // grant control to user next in queue
     int next = dequeue_request();
     if (next >= 0 && clients[next].active) {
         grant_control(next);
@@ -201,7 +182,7 @@ void request_control(int client_idx) {
     if (client_idx < 0 || client_idx >= MAX_CLIENTS) return;
     if (!clients[client_idx].active) return;
     
-    // Already controller?
+    // notify requester if they already have control
     if (clients[client_idx].is_controller) {
         char msg[256];
         snprintf(msg, sizeof(msg), "\r\n[CIS] You already have control.\r\n");
@@ -209,16 +190,16 @@ void request_control(int client_idx) {
         return;
     }
     
-    // No current controller? Grant immediately
+    // If no current controller, grant immediately
     if (current_controller < 0) {
         grant_control(client_idx);
     } else {
-        // Queue the request
+        // Otherwise, enqueue the request
         enqueue_request(client_idx);
     }
 }
 
-// ========== CLIENT MANAGEMENT ==========
+// Client management functions
 
 int add_client(int fd, const char *username) {
     for (int i = 0; i < MAX_CLIENTS; i++) {
@@ -231,7 +212,7 @@ int add_client(int fd, const char *username) {
             
             printf("\r\n[Server] Client '%s' joined (slot %d)\r\n", username, i);
             
-            // First client becomes controller
+            // First client to join the server becomes the controller
             if (current_controller == -1) {
                 clients[i].is_controller = 1;
                 current_controller = i;
@@ -263,19 +244,19 @@ void remove_client(int client_idx) {
     clients[client_idx].active = 0;
     num_clients--;
     
-    // If controller left, auto-release and grant to next
+    // If controller leaves the server, auto-release and grant control to next user in queue
     if (clients[client_idx].is_controller) {
         clients[client_idx].is_controller = 0;
         current_controller = -1;
         
-        printf("[Server] Controller disconnected, checking queue...\r\n");
+        printf("[Server] Controller disconnected, Waiting for new client to join...\r\n");
         
-        // Grant to next in queue
+        // Grant control to next in queue if available
         int next = dequeue_request();
         if (next >= 0 && clients[next].active) {
             grant_control(next);
         } else {
-            // No queue, find any active client
+            // If no user is waiting, notify all clients that there is no controller
             for (int i = 0; i < MAX_CLIENTS; i++) {
                 if (clients[i].active) {
                     grant_control(i);
@@ -297,7 +278,7 @@ void remove_client(int client_idx) {
     }
 }
 
-// ========== CLEANUP ==========
+// Cleanup function to close all client connections, kill shell, and remove socket file
 
 void cleanup() {
     printf("\r\n[Server] Shutting down...\r\n");
@@ -315,14 +296,13 @@ void cleanup() {
     unlink(SOCKET_PATH);
 }
 
-// ========== MAIN ==========
 
 int main() {
-    // Initialize
+    // Initialize clients and request queue
     memset(clients, 0, sizeof(clients));
     memset(request_queue, 0, sizeof(request_queue));
     
-    // Create PTY
+    // Create PTY and fork shell
     shell_pid = forkpty(&master_fd, NULL, NULL, NULL);
     if (shell_pid < 0) {
         perror("forkpty");
@@ -330,7 +310,7 @@ int main() {
     }
     
     if (shell_pid == 0) {
-        // Child: become bash
+        // Child process - execute shell
         execl("/bin/bash", "bash", NULL);
         exit(1);
     }
@@ -338,7 +318,7 @@ int main() {
     // Enable raw mode on server terminal
     enable_raw_mode();
     
-    // Create socket
+    // Set up UNIX domain socket server
     int server_sock = socket(AF_UNIX, SOCK_STREAM, 0);
     if (server_sock < 0) {
         perror("socket");
@@ -366,24 +346,24 @@ int main() {
     signal(SIGINT, exit);
     signal(SIGTERM, exit);
     
-    // Main event loop
+    // Main event loop using poll()
     struct pollfd fds[MAX_CLIENTS + 2];
     char buf[4096];
     
     while (1) {
         int nfds = 0;
         
-        // PTY master (shell output)
+        // Monitor PTY master for shell output
         fds[nfds].fd = master_fd;
         fds[nfds].events = POLLIN;
         nfds++;
         
-        // Listening socket (new connections)
+        // Monitor server socket for new client connections
         fds[nfds].fd = server_sock;
         fds[nfds].events = POLLIN;
         nfds++;
         
-        // All client sockets
+        // Monitor all active client sockets for input
         int client_poll_map[MAX_CLIENTS];
         for (int i = 0; i < MAX_CLIENTS; i++) {
             if (clients[i].active) {
@@ -394,7 +374,7 @@ int main() {
             }
         }
         
-        // Poll
+        // Wait for events with a timeout of 1000ms
         int ret = poll(fds, nfds, 1000);
         if (ret < 0) {
             perror("poll");
@@ -417,7 +397,7 @@ int main() {
             }
         }
         
-        // Check new connections
+        // Check new connections (server socket)
         if (fds[1].revents & POLLIN) {
             int client_fd = accept(server_sock, NULL, NULL);
             if (client_fd >= 0) {

@@ -1,23 +1,24 @@
 # CIS Phase 2 - Postmortem
 
 **Team Members:** Abin Timilsina, Sabin Ghimire, Nuraj Rimal  
-**Date:** February 13, 2026  
+**Date:** March 15, 2026  
 **Project:** Collaborative Interactive Shell (CIS) - Phase 2 Implementation
 
----
 
 ## 1. Hardest Bug Encountered
 
 ### Bug Description
-The most challenging bug was **controller input not being forwarded to the PTY** when multiple clients were connected. The server accepted connections and broadcast PTY output correctly, but keystrokes from the controller were silently ignored — commands just disappeared with no error.
+The most challenging bug was controller input not being forwarded to the PTY when multiple clients were connected. The server accepted connections and broadcast PTY output correctly, but keystrokes from the controller were silently ignored where commands just disappeared with no error.
 
 ### Reproduction Steps
-1. Start server: `./server`
-2. Connect client 1 (becomes controller): `./client`
-3. Connect client 2 (becomes observer): `./client`
-4. In client 1, type: `ls`
-5. **Expected:** Command executes, output appears in all terminals
-6. **Actual:** Nothing happens, no output, no error
+1. Execute `make clean` to ensure a fresh build
+2. Execute `make all` to compile server and client
+3. Start server: `./server`
+4. Connect client 1 (becomes controller): `./client`
+5. Connect client 2 (becomes observer): `./client`
+6. In client 1, type: `ls`
+7. **Expected:** Command executes, output appears in all terminals
+8. **Actual:** Nothing happens, no output, no error
 
 ### Root Cause
 The bug was in the `poll()` fd mapping logic. We built the poll array dynamically (skipping inactive client slots), but then used static arithmetic to map poll indices back to client indices:

@@ -1,18 +1,8 @@
-=============================================================================
-CIS Phase 2 - Collaborative Interactive Shell Demo Transcript
-=============================================================================
 
-Team Members: Abin Timilsina, Sabin Ghimire, Nuraj Rimal
-Date: [PASTE DATE HERE - e.g. Friday February 13, 2026]
-Platform: home.cs.siue.edu
-
-=============================================================================
 SESSION 1: Basic Multi-Client Collaboration
-=============================================================================
+
 
 [TERMINAL 1 - Server]
-[PASTE TERMINAL 1 OUTPUT HERE]
-[should show: server started, 3 clients joined, controller input, ls/pwd output]
 
 [atimils@home cis_phase2]$ ./server
 [Server] CIS server started
@@ -35,11 +25,8 @@ sys     0m0.000s
 [atimils@home cis_phase2]$
 
 
------------------------------------------------------------------------------
 
 [TERMINAL 2 - Client 1 (user1) - Controller]
-[PASTE TERMINAL 2 OUTPUT HERE]
-[should show: connected as controller, ls and pwd commands and output]
 
 [atimils@home cis_phase2]$ ./client
 [Client] Connected to CIS session
@@ -61,11 +48,8 @@ sys     0m0.000s
 [atimils@home cis_phase2]$
 
 
------------------------------------------------------------------------------
 
 [TERMINAL 3 - Client 2 (user2) - Observer]
-[PASTE TERMINAL 3 OUTPUT HERE]
-[should show: connected as observer, ls and pwd output appearing automatically]
 
 [atimils@home cis_phase2]$ ./client
 [Client] Connected to CIS session
@@ -87,11 +71,8 @@ sys     0m0.000s
 [atimils@home cis_phase2]$
 
 
------------------------------------------------------------------------------
 
 [TERMINAL 4 - Client 3 (user3) - Observer]
-[PASTE TERMINAL 4 OUTPUT HERE]
-[should show: connected as observer, ls and pwd output appearing automatically]
 
 [atimils@home cis_phase2]$ ./client
 [Client] Connected to CIS session
@@ -113,13 +94,13 @@ sys     0m0.000s
 [atimils@home cis_phase2]$
 
 
-=============================================================================
+-----------------------------------------------------------------------------
+
 SESSION 2: Floor Control Transfer
-=============================================================================
+
+
 
 [TERMINAL 3 - Client 2 requests control]
-[PASTE TERMINAL 3 OUTPUT HERE - just the Ctrl+T line and response]
-[should show: Control request sent. Position in queue: 1]
 
 [atimils@home cis_phase2]$ ./client
 [Client] Connected to CIS session
@@ -154,11 +135,8 @@ Controlled Transfered Successfully
 [atimils@home cis_phase2]$
 
 
------------------------------------------------------------------------------
 
 [TERMINAL 4 - Client 3 requests control]
-[PASTE TERMINAL 4 OUTPUT HERE - just the Ctrl+T line and response]
-[should show: Control request sent. Position in queue: 2]
 
 [atimils@home cis_phase2]$ ./client
 [Client] Connected to CIS session
@@ -193,11 +171,8 @@ Controlled Transfered Successfully
 [atimils@home cis_phase2]$
 
 
------------------------------------------------------------------------------
 
 [TERMINAL 1 - Server logs the requests]
-[PASTE TERMINAL 1 OUTPUT HERE - the queue request lines]
-[should show: user2 queued position 1, user3 queued position 2]
 
 [atimils@home cis_phase2]$ ./server
 [Server] CIS server started
@@ -236,11 +211,8 @@ Controlled Transfered Successfully
 [atimils@home cis_phase2]$
 
 
------------------------------------------------------------------------------
 
 [TERMINAL 2 - Client 1 releases control]
-[PASTE TERMINAL 2 OUTPUT HERE - Ctrl+R and response]
-[should show: Control released. Control granted to user2]
 
 [atimils@home cis_phase2]$ ./client
 [Client] Connected to CIS session
@@ -275,13 +247,12 @@ Controlled Transfered Successfully
 [atimils@home cis_phase2]$
 
 
-=============================================================================
+-----------------------------------------------------------------------------
 SESSION 3: List Users Feature
-=============================================================================
+
+
 
 [TERMINAL 2 - Client 1 lists users]
-[PASTE TERMINAL 2 OUTPUT HERE - Ctrl+L and response]
-[should show: Connected users list with user2 marked as controller]
 
 [atimils@home cis_phase2]$ ./client
 [Client] Connected to CIS session
@@ -323,11 +294,7 @@ Control queue: 1 waiting
 
 
 
------------------------------------------------------------------------------
-
 [TERMINAL 4 - Client 3 also lists users]
-[PASTE TERMINAL 4 OUTPUT HERE - Ctrl+L and response]
-[should show: same Connected users list]
 
 [atimils@home cis_phase2]$ ./client
 [Client] Connected to CIS session
@@ -368,14 +335,12 @@ Controlled Transfered Successfully
 Control queue: 1 waiting
 
 
-
-=============================================================================
+-----------------------------------------------------------------------------
 SESSION 4: Controller Disconnect & Auto-Transfer
-=============================================================================
+
+
 
 [TERMINAL 3 - Client 2 (controller) quits]
-[PASTE TERMINAL 3 OUTPUT HERE - Ctrl+X]
-[should show: client quitting]
 
 [atimils@home cis_phase2]$ ./client
 [Client] Connected to CIS session
@@ -414,11 +379,7 @@ Controlled Transfered Successfully
 
 
 
------------------------------------------------------------------------------
-
 [TERMINAL 1 - Server detects disconnect and auto-transfers]
-[PASTE TERMINAL 1 OUTPUT HERE]
-[should show: user2 disconnected, Controller disconnected checking queue, Control granted to user3]
 
 [atimils@home cis_phase2]$ ./server
 [Server] CIS server started
@@ -468,11 +429,8 @@ Auto Transfer Works.
 [atimils@home cis_phase2]$
 
 
------------------------------------------------------------------------------
 
 [TERMINAL 4 - Client 3 auto-granted control]
-[PASTE TERMINAL 4 OUTPUT HERE]
-[should show: You now have control, then uname -a and echo commands]
 
 [atimils@home cis_phase2]$ ./client
 [Client] Connected to CIS session
@@ -520,11 +478,8 @@ Auto Transfer Works.
 [atimils@home cis_phase2]$
 
 
------------------------------------------------------------------------------
 
 [TERMINAL 2 - Client 1 sees the auto-transfer]
-[PASTE TERMINAL 2 OUTPUT HERE]
-[should show: Control granted to user3, then uname and echo output]
 
 [atimils@home cis_phase2]$ ./client
 [Client] Connected to CIS session
@@ -571,121 +526,15 @@ Linux vm-02.cs.siue.edu 6.17.12-300.fc43.x86_64 #1 SMP PREEMPT_DYNAMIC Sat Dec 1
 Auto Transfer Works.
 [atimils@home cis_phase2]$
 
-
-=============================================================================
-SESSION 5: Observer Cannot Type Commands
-=============================================================================
-
-[TERMINAL 2 - Client 1 (observer) tries to type]
-[PASTE TERMINAL 2 OUTPUT HERE]
-[should show: ls typed but no output returned]
-
-[atimils@home cis_phase2]$ ./client
-[Client] Connected to CIS session
-[Client] Controls:
-  Ctrl+T : Request control
-  Ctrl+R : Release control
-  Ctrl+L : List users
-  Ctrl+X : Quit
-
-
-[CIS] You are the controller. Type commands.
-pwd
-/home/atimils/OS/cis_phase2
-[atimils@home cis_phase2]$ time
-
-real    0m0.000s
-user    0m0.000s
-sys     0m0.000s
-[atimils@home cis_phase2]$
-[CIS] Control released.
-
-[CIS] Control granted to user2
-whoami
-atimils
-[atimils@home cis_phase2]$ time
-
-real    0m0.000s
-user    0m0.000s
-sys     0m0.000s
-[atimils@home cis_phase2]$ echo "Controlled Transfered Successfully"
-Controlled Transfered Successfully
-[atimils@home cis_phase2]$
-[CIS] Connected users:
-  - user1
-  - user2 (controller)
-  - user3
-
-Control queue: 1 waiting
-
-[CIS] Control granted to user3
-uname -a
-Linux vm-02.cs.siue.edu 6.17.12-300.fc43.x86_64 #1 SMP PREEMPT_DYNAMIC Sat Dec 13 05:06:24 UTC 2025 x86_64 GNU/Linux
-[atimils@home cis_phase2]$ echo "Auto Transfer Works."
-Auto Transfer Works.
-[atimils@home cis_phase2]$
 
 
 -----------------------------------------------------------------------------
 
-[TERMINAL 1 - Server logs observer attempt]
-[PASTE TERMINAL 1 OUTPUT HERE]
-[should show: observer tried to type, ignored]
-
-[atimils@home cis_phase2]$ ./server
-[Server] CIS server started
-[Server] Socket: /tmp/cis.sock
-[Server] Waiting for clients...
-[atimils@home cis_phase2]$
-[Server] Client 'user1' joined (slot 0)
-[Server] 'user1' is now controller
-
-[Server] Client 'user2' joined (slot 1)
-
-[Server] Client 'user3' joined (slot 2)
-pwd
-/home/atimils/OS/cis_phase2
-[atimils@home cis_phase2]$ time
-
-real    0m0.000s
-user    0m0.000s
-sys     0m0.000s
-[atimils@home cis_phase2]$ [Server] user2 pressed Ctrl+T (request control)
-[Server] Client user2 queued for control (position: 1)
-[Server] user3 pressed Ctrl+T (request control)
-[Server] Client user3 queued for control (position: 2)
-[Server] user1 pressed Ctrl+R (release control)
-[Server] user1 released control
-[Server] Control granted to user2
-whoami
-atimils
-[atimils@home cis_phase2]$ time
-
-real    0m0.000s
-user    0m0.000s
-sys     0m0.000s
-[atimils@home cis_phase2]$ echo "Controlled Transfered Successfully"
-Controlled Transfered Successfully
-[atimils@home cis_phase2]$ [Server] user1 pressed Ctrl+L (list users)
-[Server] user3 pressed Ctrl+L (list users)
-[Server] user2 pressed Ctrl+X (disconnecting)
-
-[Server] Client 'user2' disconnected
-[Server] Controller disconnected, checking queue...
-[Server] Control granted to user3
-uname -a
-Linux vm-02.cs.siue.edu 6.17.12-300.fc43.x86_64 #1 SMP PREEMPT_DYNAMIC Sat Dec 13 05:06:24 UTC 2025 x86_64 GNU/Linux
-[atimils@home cis_phase2]$ echo "Auto Transfer Works."
-Auto Transfer Works.
-[atimils@home cis_phase2]$
+SESSION 5: Clean Shutdown
 
 
-=============================================================================
-SESSION 6: Clean Shutdown
-=============================================================================
 
 [TERMINAL 4 - Client 3 quits]
-[PASTE TERMINAL 4 OUTPUT HERE]
 
 [atimils@home cis_phase2]$ ./client
 [Client] Connected to CIS session
@@ -734,10 +583,10 @@ Auto Transfer Works.
 [Client] Quitting...
 
 [atimils@home cis_phase2]$
+
 
 
 [TERMINAL 2 - Client 1 quits]
-[PASTE TERMINAL 2 OUTPUT HERE]
 
 [atimils@home cis_phase2]$ ./client
 [Client] Connected to CIS session
@@ -790,9 +639,8 @@ Auto Transfer Works.
 [atimils@home cis_phase2]$
 
 
+
 [TERMINAL 1 - Server shuts down]
-[PASTE TERMINAL 1 OUTPUT HERE]
-[should show: clients disconnecting, then Shutting down after Ctrl+C]
 
 [atimils@home cis_phase2]$ ./server
 [Server] CIS server started
@@ -850,9 +698,10 @@ Auto Transfer Works.
 [Server] Controller disconnected, checking queue...
 
 
-=============================================================================
+
+-----------------------------------------------------------------------------
+
 SUMMARY OF DEMONSTRATED FEATURES
-=============================================================================
 
 Multi-client support (3 simultaneous clients)
 Real-time output broadcasting to all clients
@@ -861,10 +710,5 @@ Control request (Ctrl+T)
 Control release (Ctrl+R)
 User list (Ctrl+L)
 Auto-transfer on controller disconnect
-Observer input filtering
 Clean disconnect (Ctrl+X)
 Proper process cleanup
-
-=============================================================================
-END OF DEMO TRANSCRIPT
-=============================================================================
